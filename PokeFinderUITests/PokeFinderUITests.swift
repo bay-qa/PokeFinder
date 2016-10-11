@@ -35,21 +35,21 @@ class PokeFinderUITests: XCTestCase {
     
     func testExample() {
     
-        //zoom in
+        // zoom in
         app.maps.element.pinch(withScale: 1.5, velocity: 3)
+        let hiltonHotel = app.maps.otherElements["Hilton Hotel"]
         
-        let kingOfThaiNoodleHouseElement = app.maps.otherElements["Pushkin Museum"]
-
         let exists = NSPredicate(format: "isHittable = true")
-        expectation(for: exists, evaluatedWith:kingOfThaiNoodleHouseElement, handler: nil)
+        expectation(for: exists, evaluatedWith:hiltonHotel, handler: nil)
         waitForExpectations(timeout: 10.0, handler: nil)
         
-        XCTAssert(kingOfThaiNoodleHouseElement.exists)
+        XCTAssert(hiltonHotel.exists)
         
         //zoom out
         app.maps.element.pinch(withScale: 0.15, velocity: -3)
-        XCTAssertFalse(kingOfThaiNoodleHouseElement.exists)
-
+        
+//        fix test here 
+        XCTAssertFalse(hiltonHotel.exists)
         
     }
     
