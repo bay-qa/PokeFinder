@@ -9,18 +9,12 @@
 import XCTest
 
 class PokeFinderUITests: XCTestCase {
-        
+    let app = XCUIApplication()
+    
+    
     override func setUp() {
         super.setUp()
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
         XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
     override func tearDown() {
@@ -28,9 +22,35 @@ class PokeFinderUITests: XCTestCase {
         super.tearDown()
     }
     
+    func handleLocation(){
+        addUIInterruptionMonitor(withDescription: "Allow Location") { (alert) -> Bool in
+            alert.buttons["Allow"].tap()
+            return true
+        }
+        //perfrom tap here
+        app.tap()
+        
+
+    }
+    
     func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+        //zoom in
+        app.maps.element.pinch(withScale: 1.5, velocity: 3)
+        
+        let kingOfThaiNoodleHouseElement = app.maps.otherElements["Pushkin Museum"]
+
+        let exists = NSPredicate(format: "isHittable = true")
+        expectation(for: exists, evaluatedWith:kingOfThaiNoodleHouseElement, handler: nil)
+        waitForExpectations(timeout: 10.0, handler: nil)
+        
+        XCTAssert(kingOfThaiNoodleHouseElement.exists)
+        
+        //zoom out
+        app.maps.element.pinch(withScale: 0.15, velocity: -3)
+        XCTAssertFalse(kingOfThaiNoodleHouseElement.exists)
+
+        
     }
     
 }
