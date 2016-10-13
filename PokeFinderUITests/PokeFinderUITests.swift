@@ -48,7 +48,7 @@ class PokeFinderUITests: XCTestCase {
         //zoom out
         app.maps.element.pinch(withScale: 0.15, velocity: -3)
         
-//        fix test here 
+//        fix test here
         XCTAssertFalse(hiltonHotel.exists)
         
     }
