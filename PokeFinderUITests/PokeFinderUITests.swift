@@ -10,7 +10,9 @@ import XCTest
 
 class PokeFinderUITests: XCTestCase {
     let app = XCUIApplication()
-    
+    let hiltonHotel = XCUIApplication().maps.otherElements["Hilton Hotel"]
+    let waterBar = XCUIApplication().maps.otherElements["Waterbar"]
+
     
     override func setUp() {
         super.setUp()
@@ -33,24 +35,42 @@ class PokeFinderUITests: XCTestCase {
 
     }
     
-    func testExample() {
-    
-        // zoom in
+    func zoomIn(){
         app.maps.element.pinch(withScale: 1.5, velocity: 3)
-        let hiltonHotel = app.maps.otherElements["Hilton Hotel"]
         
         let exists = NSPredicate(format: "isHittable = true")
         expectation(for: exists, evaluatedWith:hiltonHotel, handler: nil)
-        waitForExpectations(timeout: 10.0, handler: nil)
+        waitForExpectations(timeout: 15.0, handler: nil)
         
         XCTAssert(hiltonHotel.exists)
+
+    }
+    
+    func testZoomInOut() {
+    
+        zoomIn()
         
         //zoom out
         app.maps.element.pinch(withScale: 0.15, velocity: -3)
         
-//        fix test here
+//     fix test with false predicate for element to disapear
+        
+        let does_not_exists = NSPredicate(format: "exists = false")
+        expectation(for: does_not_exists, evaluatedWith:hiltonHotel, handler: nil)
+        waitForExpectations(timeout: 15.0, handler: nil)
+
+        
         XCTAssertFalse(hiltonHotel.exists)
         
+    }
+    
+    func testMapSwipe(){
+        zoomIn()
+        while !waterBar.exists {
+            app.swipeLeft()
+        }
+        
+        XCTAssert(waterBar.exists)
     }
     
 }
