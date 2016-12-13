@@ -37,13 +37,8 @@ class PokeFinderUITests: XCTestCase {
     
     func zoomIn(){
         app.maps.element.pinch(withScale: 1.5, velocity: 3)
-        
-        let exists = NSPredicate(format: "isHittable = true")
-        expectation(for: exists, evaluatedWith:hiltonHotel, handler: nil)
-        waitForExpectations(timeout: 15.0, handler: nil)
-        
+        waitForElementToAppear(format: "isHittable = true", element: hiltonHotel, time: 15.0)
         XCTAssert(hiltonHotel.exists)
-
     }
     
     func testZoomInOut() {
@@ -54,12 +49,7 @@ class PokeFinderUITests: XCTestCase {
         app.maps.element.pinch(withScale: 0.15, velocity: -3)
         
 //     fix test with false predicate for element to disapear
-        
-        let does_not_exists = NSPredicate(format: "exists = false")
-        expectation(for: does_not_exists, evaluatedWith:hiltonHotel, handler: nil)
-        waitForExpectations(timeout: 15.0, handler: nil)
-
-        
+        waitForElementToAppear(format: "exists = false", element: hiltonHotel, time: 15.0)
         XCTAssertFalse(hiltonHotel.exists)
         
     }
@@ -72,5 +62,13 @@ class PokeFinderUITests: XCTestCase {
         
         XCTAssert(waterBar.exists)
     }
+    
+    
+    func waitForElementToAppear(format: String, element: AnyObject, time: Double){
+        let exists = NSPredicate(format: format)
+        expectation(for: exists, evaluatedWith:element, handler: nil)
+        waitForExpectations(timeout: time, handler: nil)
+    }
+
     
 }
