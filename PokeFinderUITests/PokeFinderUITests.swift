@@ -31,12 +31,11 @@ class PokeFinderUITests: XCTestCase {
         }
         //perfrom tap here
         app.tap()
-        
-
     }
     
     func zoomIn(){
         app.maps.element.pinch(withScale: 1.5, velocity: 3)
+        
         waitForElementToAppear(format: "isHittable = true", element: hiltonHotel, time: 15.0)
         XCTAssert(hiltonHotel.exists)
     }
@@ -48,7 +47,6 @@ class PokeFinderUITests: XCTestCase {
         //zoom out
         app.maps.element.pinch(withScale: 0.15, velocity: -3)
         
-//     fix test with false predicate for element to disapear
         waitForElementToAppear(format: "exists = false", element: hiltonHotel, time: 15.0)
         XCTAssertFalse(hiltonHotel.exists)
         
