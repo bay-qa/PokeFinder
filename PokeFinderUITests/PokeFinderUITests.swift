@@ -34,14 +34,12 @@ class PokeFinderUITests: XCTestCase {
     }
     
     func zoomIn(){
-        app.maps.element.pinch(withScale: 1.5, velocity: 3)
-        
-        waitForElementToAppear(format: "isHittable = true", element: hiltonHotel, time: 15.0)
+        app.maps.element.pinch(withScale: 1.7, velocity: 4)
+        waitForElementToAppear(format: "exists = true", element: hiltonHotel, time: 15.0)
         XCTAssert(hiltonHotel.exists)
     }
     
     func testZoomInOut() {
-    
         zoomIn()
         
         //zoom out
@@ -56,6 +54,8 @@ class PokeFinderUITests: XCTestCase {
         zoomIn()
         while !waterBar.exists {
             app.swipeLeft()
+            //wait for 1 sec after each swipe
+            sleep(1)
         }
         
         XCTAssert(waterBar.exists)
